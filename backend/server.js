@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3000;
 // ---- MIDDLEWARES ----
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../')));  // Sirve el frontend
+app.use(express.static(path.join(__dirname, '../frontend')));  // Sirve el frontend
 
 // ---- CONEXIÓN A MONGODB ATLAS ----
 mongoose.connect(process.env.MONGO_URI, { family: 4 })
@@ -44,7 +44,7 @@ app.use((err, req, res, next) => {
 
 // ---- RUTA PRINCIPAL ----
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
 // ---- INICIAR SERVIDOR ----
