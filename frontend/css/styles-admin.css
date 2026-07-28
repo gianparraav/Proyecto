@@ -1,0 +1,22 @@
+/* Estilos extra para la pantalla de administración: miniaturas, badges, estado y alineación de precio */
+.page-admin .admin-table td, .page-admin .admin-table th { vertical-align: middle; }
+.page-admin .product-cell { display:flex; align-items:center; gap:12px; }
+.page-admin .product-info { display:flex; flex-direction:column; }
+.page-admin .product-name { font-weight:700; font-family:'Playfair Display', serif; color:#32170d; }
+.page-admin .product-desc { font-size:0.9rem; color:#956b47; margin-top:4px; max-width:420px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.page-admin .badge { display:inline-block; background:#fff7f0; border:1px solid #eddcc9; color:#8f5f3f; padding:6px 10px; border-radius:999px; font-weight:700; font-size:0.82rem; }
+.page-admin .price-cell { text-align:right; font-weight:700; color:#32170d; font-family:'Playfair Display', serif; }
+.page-admin .status-pill { display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:0.85rem; }
+.page-admin .status-pill.available { background:#e9f7ee; color:#1b6b3a; border:1px solid #d6efd6; }
+.page-admin .status-pill.unavailable { background:#fff1f0; color:#9b2b2b; border:1px solid #f2d6d6; }
+.page-admin .btn-icon { font-size:0.95rem; padding:6px 8px; background:transparent; border-radius:6px; }
+.page-admin .btn-icon:hover { background:#f7f3ef; }
+.page-admin .thumb { width:56px; height:56px; object-fit:cover; border-radius:8px; border:1px solid #efe2d7; }
+.page-admin .table-wrap { background:#fff; }
+.page-admin .admin-table thead th { text-transform:uppercase; font-size:0.75rem; color:#8f623f; }
+
+/* Ajustes responsivos */
+@media (max-width:760px) {
+  .page-admin .product-desc { display:none; }
+  .page-admin .admin-table thead th:nth-child(1), .page-admin .admin-table td:nth-child(1) { display:none; }
+}

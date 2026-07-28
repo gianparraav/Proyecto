@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gestión | Café Aroma</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles-admin.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-page="admin" class="page-admin">
+    <nav class="navbar"></nav>
+    <main class="admin-main">
+      <header class="admin-header">
+        <div>
+          <p class="eyebrow">Panel de control</p>
+          <h1>Gestión de Productos</h1>
+          <p>CRUD completo — crear, leer, actualizar, eliminar</p>
+        </div>
+        <button id="btnNuevoProducto" type="button" class="btn-primary">
+          ＋ Nuevo Producto
+        </button>
+      </header>
+      <p class="admin-api-notice">
+        <b>● &nbsp; API REST simulada:</b> Las operaciones se registran en la
+        consola del navegador. Datos persisten en <code>localStorage</code> con
+        métodos <code>GET · POST · PUT · DELETE</code>
+      </p>
+      <section class="admin-card admin-card-wide">
+        <div class="admin-toolbar">
+          <label class="admin-search" for="adminSearch"
+            >⌕
+            <input
+              id="adminSearch"
+              type="search"
+              placeholder="Buscar producto..."
+          /></label>
+          <div>
+            <span id="adminCount">Productos registrados</span
+            ><button type="button" class="btn-secondary" id="btnRecargarCafes">
+              ↻ Actualizar
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table" id="tablaCafes">
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaCafesBody"></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="admin-card admin-card-wide admin-resenas-section">
+        <h2>Reseñas de clientes</h2>
+        <p class="admin-hint">
+          Editar comentario o calificación · Eliminar reseñas inapropiadas
+        </p>
+        <div id="listaResenasAdmin" class="admin-resenas-list"></div>
+      </section>
+    </main>
+    <div
+      class="admin-modal hidden"
+      id="adminModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="formTitle"
+    >
+      <article class="admin-form-card">
+        <button
+          type="button"
+          class="modal-close"
+          id="adminModalClose"
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+        <h2 id="formTitle">Agregar producto al menú</h2>
+        <form id="cafeForm" novalidate>
+          <input type="hidden" id="cafeId" />
+          <div class="form-grid">
+            <label
+              >Nombre<input
+                type="text"
+                id="cafeNombre"
+                name="nombre"
+                required /></label
+            ><label
+              >Categoría<select id="cafeCategoria" name="categoria" required>
+                <option value="">Selecciona…</option>
+                <option value="espresso">Espresso</option>
+                <option value="frio">Frío</option>
+                <option value="especial">Especial</option>
+              </select></label
+            ><label
+              >Precio (MXN)<input
+                type="number"
+                id="cafePrecio"
+                name="precio"
+                min="1"
+                step="1"
+                required /></label
+            ><label
+              >URL de imagen<input
+                type="url"
+                id="cafeImagen"
+                name="imagen"
+                required
+            /></label>
+          </div>
+          <label
+            >Descripción corta<textarea
+              id="cafeDescripcion"
+              name="descripcion"
+              rows="2"
+              required
+            ></textarea></label
+          ><label
+            >Descripción larga<textarea
+              id="cafeDescripcionLarga"
+              name="descripcionLarga"
+              rows="3"
+            ></textarea></label
+          ><label
+            >Detalles (separados por coma)<input
+              type="text"
+              id="cafeDetalles"
+              name="detalles"
+              placeholder="Grano local, Sin azúcar" /></label
+          ><label class="checkbox-row"
+            ><input type="checkbox" id="cafeDisponible" checked /> Disponible en
+            menú</label
+          >
+          <div class="admin-form-actions">
+            <button type="submit" class="btn-primary" id="cafeSubmitBtn">
+              Guardar producto</button
+            ><button type="button" class="btn-secondary" id="cafeCancelEdit">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </article>
+    </div>
+  <div class="cart-sidebar hidden" id="cartSidebar">
+    <div class="cart-header">
+      <h3>🛒 Tu pedido</h3>
+      <button id="closeCart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Tu carrito está vacío</p>
+    </div>
+    <div class="cart-footer" id="cartFooter"></div>
+  </div>
+  <div class="overlay-bg hidden" id="overlayBg"></div>
+    <footer class="footer">
+      <p>☕ Café Origen — Tepic, Nayarit, México</p>
+      <p>Hecho con amor y mucho café ❤️</p>
+    </footer>
+    <script src="js/api.js"></script>
+    <script src="js/validaciones.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/interface.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

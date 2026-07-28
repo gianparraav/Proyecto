@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menú — Café Aroma</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-page="menu" class="page-menu">
+    <nav class="navbar"></nav>
+    <main>
+      <section class="filter-section" id="menu">
+        <h1 class="section-title">Nuestro <em>Menú</em></h1>
+        <p class="section-sub">Encuentra tu café favorito</p>
+        <div class="filters" aria-label="Filtrar productos">
+          <button class="filter-btn active" data-filter="todos" type="button">
+            Todos</button
+          ><button class="filter-btn" data-filter="espresso" type="button">
+            Espresso</button
+          ><button class="filter-btn" data-filter="frio" type="button">
+            Frío</button
+          ><button class="filter-btn" data-filter="especial" type="button">
+            Especiales
+          </button>
+        </div>
+        <div class="search-wrap">
+          <label class="sr-only" for="searchInput">Buscar café</label
+          ><input
+            type="text"
+            id="searchInput"
+            placeholder="Buscar café..."
+          /><span class="search-icon">🔍</span>
+        </div>
+      </section>
+      <section class="catalog">
+        <div class="cafes-grid" id="cafesGrid"></div>
+        <p class="no-results hidden" id="noResults">No se encontraron cafés.</p>
+      </section>
+    </main>
+    <div class="modal-overlay hidden" id="modalOverlay">
+      <div class="modal" id="modal">
+        <button
+          class="modal-close"
+          id="modalClose"
+          type="button"
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+        <div class="modal-content" id="modalContent"></div>
+      </div>
+    </div>
+ 
+     <div class="cart-sidebar hidden" id="cartSidebar">
+    <div class="cart-header">
+      <h3>🛒 Tu pedido</h3>
+      <button id="closeCart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Tu carrito está vacío</p>
+    </div>
+    <div class="cart-footer" id="cartFooter"></div>
+  </div>
+  <div class="overlay-bg hidden" id="overlayBg"></div>
+    <footer class="footer">
+      <p>☕ Café Origen — Tepic, Nayarit, México</p>
+      <p>Hecho con amor y mucho café ❤️</p>
+    </footer>
+    <script src="script.js"></script>
+    <script src="js/interface.js"></script>
+  </body>
+</html>
