@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // sincronizar contador desde localStorage (si hay datos restaurados arriba)
   if (typeof actualizarContadorCarrito === 'function') actualizarContadorCarrito();
   setupModal();
-  if (document.getElementById('contactForm')) setupContacto();
   setupNavbar();
   // Intentar cargar desde el backend (si está activo)
   cargarDesdeAPI();
@@ -254,6 +253,7 @@ function filtrarCafes(categoria, query) {
 // ---- BUSCADOR ----
 function setupBuscador() {
   const input = document.getElementById('searchInput');
+  if (!input) return;
   input.addEventListener('input', () => {
     const filtroActivo = document.querySelector('.filter-btn.active').dataset.filter;
     filtrarCafes(filtroActivo, input.value.toLowerCase());
@@ -262,9 +262,12 @@ function setupBuscador() {
 
 // ---- MODAL ----
 function setupModal() {
-  document.getElementById('modalClose').addEventListener('click', cerrarModal);
-  document.getElementById('modalOverlay').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('modalOverlay')) cerrarModal();
+  const modalClose = document.getElementById('modalClose');
+  const modalOverlay = document.getElementById('modalOverlay');
+  if (!modalClose || !modalOverlay) return;
+  modalClose.addEventListener('click', cerrarModal);
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) cerrarModal();
   });
 }
 
@@ -503,7 +506,21 @@ function vaciarCarrito() {
 }
 
 async function procesarPedido() {
-  if (carrito.length === 0) return;
+    if (carrito.length === 0) return;
+
+  // Validar campos obligatorios del formulario (si existen en la página actual)
+  const nombreInput = document.getElementById('pedidoNombre');
+  const mesaInput = document.getElementById('pedidoMesa');
+  if (nombreInput && mesaInput) {
+    const nombreVal = nombreInput.value.trim();
+    const mesaVal = mesaInput.value.trim();
+    if (!nombreVal || !mesaVal) {
+      mostrarNotificacion('⚠️ Completa tu nombre y número de mesa antes de continuar');
+      if (!nombreVal) nombreInput.focus();
+      else mesaInput.focus();
+      return;
+    }
+  }
 
   const total = carrito.reduce((s, i) => s + i.precio * (i.cantidad || 1), 0);
   const pedido = {
@@ -513,14 +530,15 @@ async function procesarPedido() {
 
   // Si estamos en la página de carrito, recoger campos del formulario
   try {
-    const nombre = document.getElementById('pedidoNombre')?.value || null;
-    const mesa = document.getElementById('pedidoMesa')?.value || null;
-    const notas = document.getElementById('pedidoNotas')?.value || null;
+    const nombre = document.getElementById('pedidoNombre')?.value.trim() || null;
+    const mesa = document.getElementById('pedidoMesa')?.value.trim() || null;
+    const notas = document.getElementById('pedidoNotas')?.value.trim() || null;
     if (nombre) pedido.nombre = nombre;
     if (mesa) pedido.mesa = mesa;
     if (notas) pedido.notas = notas;
   } catch (e) {}
 
+  ////////////////////////////////
   try {
     const res = await fetch('http://localhost:3000/api/pedidos', {
       method: 'POST',
@@ -570,37 +588,6 @@ function mostrarNotificacion(mensaje) {
 
   clearTimeout(notif._timeout);
   notif._timeout = setTimeout(() => { notif.style.opacity = '0'; }, 2500);
-}
-
-// ---- CONTACTO ----
-function setupContacto() {
-  document.getElementById('contactForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nombre  = document.getElementById('contactName').value;
-    const email   = document.getElementById('contactEmail').value;
-    const mensaje = document.getElementById('contactMsg').value;
-
-    if (!nombre || !email || !mensaje) return;
-
-    try {
-      const res = await fetch('http://localhost:3000/api/contacto', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, email, mensaje })
-      });
-
-      if (!res.ok) throw new Error('Error del servidor');
-      console.log('✅ Mensaje guardado en MongoDB');
-    } catch (err) {
-      console.error('❌ Error enviando mensaje:', err.message);
-    }
-
-    document.getElementById('formFeedback').classList.remove('hidden');
-    document.getElementById('contactForm').reset();
-    setTimeout(() => {
-      document.getElementById('formFeedback').classList.add('hidden');
-    }, 4000);
-  });
 }
 
 // ---- NAVBAR SCROLL ----

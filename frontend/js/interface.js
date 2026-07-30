@@ -28,6 +28,7 @@
       <li><a href="pedidos.html"${current('pedidos')}>Pedidos</a></li>
       <li><a href="nosotros.html"${current('nosotros')}>Nosotros</a></li>
       <li><a href="contacto.html"${current('contacto')}>Contacto</a></li>
+      <li><a href="login.html"${current('login')}>Iniciar Sesión</a></li>
     </ul>${cartMarkup}`;
   const toggle = document.getElementById('navToggle');
   const links = nav.querySelector('.nav-links');
@@ -46,10 +47,12 @@
       menuButton.href = 'menu.html';
       menuButton.textContent = 'Ver Menú Completo';
     }
+    /*
     const hero = document.querySelector('.hero');
     if (hero && !document.querySelector('.quick-stats')) {
       hero.insertAdjacentHTML('afterend', `<section class="quick-stats" aria-label="Resumen de Café Aroma"><div><span>☕</span><strong id="homeMenuProductCount">0</strong><small>Productos en menú</small></div><div><span>🪑</span><strong>14</strong><small>Mesas disponibles</small></div><div><span>⭐</span><strong>6</strong><small>Años de experiencia</small></div><div><span>💗</span><strong>2,400+</strong><small>Clientes satisfechos</small></div></section>`);
     }
+    */
   }
   if (page === 'menu') {
     const section = document.querySelector('.filter-section');

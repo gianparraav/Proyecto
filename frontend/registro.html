@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrarse — Café Aroma</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles-login.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body data-page="registro" class="page-login">
+  
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo"><a href="index.html">☕ Café Aroma</a></div>
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="menu.html">Menú</a></li>
+      <li><a href="nosotros.html">Nosotros</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="resenas.html">Reseñas</a></li>
+      <li><a href="admin.html">Gestión</a></li>
+      <li><a href="pedidos.html">Pedidos</a></li>
+      <li><a href="login.html">Iniciar Sesión</a></li>
+    </ul>
+    <div class="cart-btn" id="cartBtn">🛒 <span id="cartCount">0</span></div>
+  </nav>
+
+  <!-- MAIN REGISTRO -->
+  <main class="login-main">
+    <div class="login-container">
+      <!-- Columna izquierda: branding -->
+      <div class="login-brand">
+        <div class="login-brand-content">
+          <span class="login-brand-icon">☕</span>
+          <h1>Café Aroma</h1>
+          <p>Únete a nuestra comunidad.<br />Crea tu cuenta y disfruta de beneficios exclusivos.</p>
+          <div class="login-brand-deco">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha: formulario de registro -->
+      <div class="login-form-wrapper">
+        <div class="login-form-card">
+          <div class="login-header">
+            <h2>Crear Cuenta</h2>
+            <p>Regístrate para acceder a todas las funcionalidades</p>
+          </div>
+
+          <form class="login-form" id="registroForm" novalidate>
+            <div class="form-group">
+              <label for="regNombre">Nombre completo</label>
+              <input 
+                type="text" 
+                id="regNombre" 
+                placeholder="Tu nombre" 
+                required 
+                minlength="2"
+              />
+              <span class="form-error hidden" id="regNombreError">Mínimo 2 caracteres</span>
+            </div>
+
+            <div class="form-group">
+              <label for="regEmail">Correo electrónico</label>
+              <input 
+                type="email" 
+                id="regEmail" 
+                placeholder="tu@email.com" 
+                required 
+                autocomplete="email"
+              />
+              <span class="form-error hidden" id="regEmailError">Correo inválido</span>
+            </div>
+
+            <div class="form-group">
+              <label for="regPassword">Contraseña</label>
+              <div class="password-wrapper">
+                <input 
+                  type="password" 
+                  id="regPassword" 
+                  placeholder="Mínimo 6 caracteres" 
+                  required 
+                  minlength="6"
+                />
+                <button type="button" class="toggle-password" id="toggleRegPassword" aria-label="Mostrar contraseña">
+                  👁️
+                </button>
+              </div>
+              <span class="form-error hidden" id="regPasswordError">Mínimo 6 caracteres</span>
+            </div>
+
+            <div class="form-group">
+              <label for="regConfirmPassword">Confirmar contraseña</label>
+              <div class="password-wrapper">
+                <input 
+                  type="password" 
+                  id="regConfirmPassword" 
+                  placeholder="Repite tu contraseña" 
+                  required 
+                />
+              </div>
+              <span class="form-error hidden" id="regConfirmError">Las contraseñas no coinciden</span>
+            </div>
+
+            <button type="submit" class="btn-primary btn-login">
+              Registrarse
+            </button>
+
+            <p class="register-link">
+              ¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>☕ Café Aroma — Tepic, Nayarit, México</p>
+    <p>Hecho con amor y mucho café ❤️</p>
+  </footer>
+
+  <script src="js/interface.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

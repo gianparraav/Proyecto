@@ -31,6 +31,7 @@ app.use('/api/cafes',    require('./routes/cafes'));
 app.use('/api/pedidos',  require('./routes/pedidos'));
 app.use('/api/contacto', require('./routes/contacto'));
 app.use('/api/resenas',  require('./routes/resenas'));
+app.use('/api/usuarios', require('./routes/usuarios'));
 
 // ---- Manejo de rutas no encontradas ----
 app.use('/api', (req, res) => {
