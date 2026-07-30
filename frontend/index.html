@@ -4,167 +4,156 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Café Origen — Especialidades</title>
-  <link rel="icon" href="https://png.pngtree.com/png-clipart/20231020/original/pngtree-cartoon-coffee-cup-png-image_13380873.png" type="image/x-icon">
-  <link rel="stylesheet" href="css/styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/index.css" />
 </head>
+
 <body>
 
   <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-logo">☕ Café Origen</div>
-    <ul class="nav-links">
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#menu">Menú</a></li>
-      <li><a href="#nosotros">Nosotros</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-      <li><a href="#resenas">Reseñas</a></li>
-    </ul>
-    <div class="cart-btn" id="cartBtn">
-      🛒 <span id="cartCount">0</span>
-    </div>
-  </nav>
+  <header>
+    <nav class="navbar">
+      <div class="nav-logo">
+        <a href="index.html">☕ Café Aroma</a>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Inicio</a></li>
+        <li><a href="menu.html">Menú</a></li>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+        <li><a href="pedidos.html">Pedidos</a></li>
+        <li><a href="admin.html">Gestión</a></li>
+        <li><a href="login.html">Admin</a></li>
+      </ul>
+
+      <div class="cart-btn" id="cartBtn">
+        🛒 Carrito <span id="cartCount">0</span>
+      </div>
+    </nav>
+  </header>
 
   <!-- HERO -->
-  <section class="hero" id="inicio">
-    <div class="hero-content">
-      <p class="hero-sub">Bienvenidos a</p>
-      <h1 class="hero-title">Café<br /><em>Origen</em></h1>
-      <p class="hero-desc">Cada taza cuenta una historia. Granos seleccionados a mano, tostados con pasión y servidos con amor desde Nayarit.</p>
-      <a href="#menu" class="btn-primary">Ver el Menú</a>
-    </div>
-    <div class="hero-image">
-      <div class="coffee-circle">
-        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&q=80" alt="café" />
+  <main>
+    <section class="hero">
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+        <p class="hero-sub">BIENVENIDO A</p>
+
+        <h1 class="hero-title">Café Aroma</h1>
+
+        <p class="hero-desc">
+          Experiencias de café artesanal con ingredientes
+          de primera calidad. Cada sorbo, una historia.
+        </p>
+
+        <a href="menu.html" class="btn-primary">
+          Ver Menú Completo
+        </a>
       </div>
-      <div class="floating-tag tag-1">Espresso<br/><small>$35</small></div>
-      <div class="floating-tag tag-2">Recién<br/>tostado</div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FILTROS -->
-  <section class="filter-section" id="menu">
-    <h2 class="section-title">Nuestro <em>Menú</em></h2>
-    <p class="section-sub">Encuentra tu café favorito</p>
-    <div class="filters">
-      <button class="filter-btn active" data-filter="todos">Todos</button>
-      <button class="filter-btn" data-filter="espresso">Espresso</button>
-      <button class="filter-btn" data-filter="frio">Frío</button>
-      <button class="filter-btn" data-filter="especial">Especiales</button>
-    </div>
-
-    <!-- BUSCADOR -->
-    <div class="search-wrap">
-      <input type="text" id="searchInput" placeholder="Buscar café..." />
-      <span class="search-icon">🔍</span>
-    </div>
-  </section>
-
-  <!-- CATÁLOGO -->
-  <section class="catalog">
-    <div class="cafes-grid" id="cafesGrid">
-      <!-- Las tarjetas se generan con JavaScript -->
-    </div>
-    <p class="no-results hidden" id="noResults">No se encontraron cafés 😔</p>
-  </section>
-
-  <!-- PRODUCTOS DESTACADOS -->
-  <section class="featured" id="destacados">
-    <div class="featured-header">
-      <div>
-        <p class="eyebrow">LO MÁS PEDIDO</p>
-        <h2>Productos Destacados</h2>
-      </div>
-      <a href="menu.html" class="see-all">Ver todo →</a>
-    </div>
-    <div class="featured-grid" id="featuredGrid"></div>
-  </section>
-
-  <!-- CONTACTO -->
-  <section class="contact" id="contacto">
-    <h2>¿Tienes alguna <em>pregunta?</em></h2>
-    <p>Escríbenos y con gusto te atendemos</p>
-    <form class="contact-form" id="contactForm">
-      <input type="text" placeholder="Tu nombre" id="contactName" required />
-      <input type="email" placeholder="Tu correo" id="contactEmail" required />
-      <textarea placeholder="Tu mensaje..." id="contactMsg" rows="4" required></textarea>
-      <button type="submit" class="btn-primary">Enviar mensaje</button>
-    </form>
-    <p class="form-feedback hidden" id="formFeedback">✅ ¡Mensaje enviado! Te contactaremos pronto.</p>
-  </section>
-
-  <!-- RESEÑAS -->
-  <section class="resenas" id="resenas">
-    <h2 class="section-title">Lo que dicen <em>nuestros clientes</em></h2>
-    <p class="section-sub">Selecciona un café para ver sus reseñas</p>
-
-    <!-- Carrusel de cafés -->
-    <div class="carousel-wrapper" id="carouselWrapper">
-      <button class="carousel-arrow" id="carouselPrev">&#8249;</button>
-      <div class="carousel-stage" id="carouselStage"></div>
-      <button class="carousel-arrow" id="carouselNext">&#8250;</button>
-    </div>
-    <div class="carousel-dots" id="carouselDots"></div>
-
-    <!-- Panel reseñas -->
-    <div class="resenas-panel" id="resenasPanel"></div>
-
-    <!-- Modal para escribir reseña -->
-    <div class="resena-modal-overlay hidden" id="resenaModalOverlay">
-      <div class="resena-modal">
-        <button class="resena-modal-close" id="resenaModalClose">✕</button>
-        <h3>Deja tu reseña</h3>
-        <p class="resena-modal-cafe" id="resenaModalCafe"></p>
-        <form id="resenaForm">
-          <input type="text" id="resenaNombre" placeholder="Tu nombre" required />
-          <input type="hidden" id="resenaCafe" />
-          <div class="estrellas-input">
-            <span>Calificación:</span>
-            <div class="estrellas-selector">
-              <span class="estrella-btn" data-val="1">★</span>
-              <span class="estrella-btn" data-val="2">★</span>
-              <span class="estrella-btn" data-val="3">★</span>
-              <span class="estrella-btn" data-val="4">★</span>
-              <span class="estrella-btn" data-val="5">★</span>
-            </div>
-          </div>
-          <input type="hidden" id="resenaCalificacion" value="0" />
-          <textarea id="resenaComentario" placeholder="Escribe tu comentario..." rows="3" required></textarea>
-          <button type="submit" class="btn-primary">Publicar reseña</button>
-          <p class="resena-feedback hidden" id="resenaFeedback">✅ ¡Reseña publicada!</p>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>☕ Café Origen — Tepic, Nayarit, México</p>
-    <p>Hecho con amor y mucho café ❤️</p>
-  </footer>
-
-  <!-- MODAL DETALLE -->
-  <div class="modal-overlay hidden" id="modalOverlay">
-    <div class="modal" id="modal">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div class="modal-content" id="modalContent"></div>
-    </div>
+    <!-- ESTADÍSTICAS -->
+<section class="stats">
+  <div class="stat-item">
+    <div class="stat-icon">☕</div>
+    <h3>8</h3>
+    <p>Productos en menú</p>
   </div>
 
-  <!-- CARRITO LATERAL -->
-  <div class="cart-sidebar hidden" id="cartSidebar">
-    <div class="cart-header">
-      <h3>🛒 Tu pedido</h3>
-      <button id="closeCart">✕</button>
-    </div>
-    <div class="cart-items" id="cartItems">
-      <p class="cart-empty">Tu carrito está vacío</p>
-    </div>
-    <div class="cart-footer" id="cartFooter"></div>
+  <div class="stat-item">
+    <div class="stat-icon">🪑</div>
+    <h3>14</h3>
+    <p>Mesas disponibles</p>
   </div>
-  <div class="overlay-bg hidden" id="overlayBg"></div>
 
-  <script src="js/script.js"></script>
-  <script src="js/interface.js"></script>
+  <div class="stat-item">
+    <div class="stat-icon">⭐</div>
+    <h3>6</h3>
+    <p>Años de experiencia</p>
+  </div>
+
+  <div class="stat-item">
+    <div class="stat-icon">💗</div>
+    <h3>2,400+</h3>
+    <p>Clientes satisfechos</p>
+  </div>
+</section>
+
+<!-- PRODUCTOS DESTACADOS -->
+<section class="featured">
+  <div class="featured-header">
+    <div>
+      <p class="eyebrow">LO MÁS PEDIDO</p>
+      <h2>Productos Destacados</h2>
+    </div>
+
+    <a href="menu.html" class="see-all">Ver todo →</a>
+  </div>
+
+  <div class="featured-grid">
+
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=800&q=80" alt="Espresso">
+      <div class="card-body">
+        <p class="card-tag">LO MÁS PEDIDO</p>
+        <h3>Espresso Clásico</h3>
+        <p class="card-desc">
+          Un espresso concentrado y aromático, extraído lentamente para resaltar
+          los sabores más profundos del grano.
+        </p>
+
+        <div class="card-footer">
+          <span class="price">$35 MXN</span>
+          <button class="btn-add">Agregar</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80" alt="Capuchino">
+      <div class="card-body">
+        <p class="card-tag">LO MÁS PEDIDO</p>
+        <h3>Capuchino Artesanal</h3>
+        <p class="card-desc">
+          Espresso doble con leche vaporizada y una capa de espuma suave y cremosa.
+          El favorito de muchos.
+        </p>
+
+        <div class="card-footer">
+          <span class="price">$55 MXN</span>
+          <button class="btn-add">Agregar</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80" alt="Café filtrado">
+      <div class="card-body">
+        <p class="card-tag">LO MÁS PEDIDO</p>
+        <h3>Café Negro Filtrado</h3>
+        <p class="card-desc">
+          Café de origen único, preparado por goteo lento para extraer todos los
+          matices florales y frutales del grano.
+        </p>
+
+        <div class="card-footer">
+          <span class="price">$40 MXN</span>
+          <button class="btn-add">Agregar</button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+  </main>
+
+<footer class="footer">
+  <p>☕ Café Origen — Tepic, Nayarit, México</p>
+  <p>Hecho con amor y mucho café ❤️</p>
+</footer>
+
+
 </body>
 </html>
