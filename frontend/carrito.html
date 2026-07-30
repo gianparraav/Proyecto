@@ -1,64 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tu Pedido — Café Origen</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-</head>
-<body data-page="carrito" class="page-carrito">
-  <nav class="navbar">
-    <div class="nav-logo"><a href="index.html">☕ Café Origen</a></div>
-    <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
-    <ul class="nav-links">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="menu.html">Menú</a></li>
-      <li><a href="nosotros.html">Nosotros</a></li>
-      <li><a href="contacto.html">Contacto</a></li>
-      <li><a href="pedidos.html">Pedidos</a></li>
-    </ul>
-    <div class="cart-btn" id="cartBtn">🛒 <span id="cartCount">0</span></div>
-  </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tu Pedido — Café Origen</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-page="carrito" class="page-carrito">
+    <!-- ✅ VERIFICAR SESIÓN -->
+    <script>
+      (function () {
+        try {
+          const ses = localStorage.getItem("cafeSesion");
+          if (!ses) {
+            window.location.replace("login.html");
+          }
+        } catch (e) {
+          console.error("Error al verificar sesión:", e);
+        }
+      })();
+    </script>
+    <!-- ENCABEZADO -->
+    <header>
+      <!-- NAVBAR-->
+      <nav class="navbar">
+        <div class="nav-logo"><a href="index.html">☕ Café Origen</a></div>
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="menu.html">Menú</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="pedidos.html">Pedidos</a></li>
+        </ul>
+        <div class="cart-btn" id="cartBtn">
+          🛒 <span id="cartCount">0</span>
+        </div>
+      </nav>
+    </header>
+    <!-- MAIN - Contenido -->
+    <main class="cart-page-main">
+      <section class="cart-hero">
+        <div class="cart-hero-inner">
+          <div class="cart-hero-icon">🛒</div>
+          <h1>Tu carrito está vacío</h1>
+          <p>Explora nuestro menú y añade tus productos favoritos.</p>
+          <a class="btn-primary" href="menu.html">Ver Menú</a>
+        </div>
+      </section>
 
-  <main class="cart-page-main">
-    <section class="cart-hero">
-      <div class="cart-hero-inner">
-        <div class="cart-hero-icon">🛒</div>
-        <h1>Tu carrito está vacío</h1>
-        <p>Explora nuestro menú y añade tus productos favoritos.</p>
-        <a class="btn-primary" href="menu.html">Ver Menú</a>
-      </div>
-    </section>
-
-    <section class="cart-content container">
-      <div class="cart-page-header">
-        <p class="cart-page-label">TU SELECCIÓN</p>
-        <h1>Carrito</h1>
-      </div>
-      <div id="cartItems" class="cart-items-full">
-        <!-- renderCarrito() rellenará aquí -->
-      </div>
-      <aside id="cartFooter" class="cart-footer-full">
-        <!-- Totales / botones -->
-      </aside>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <p>☕ Café Origen — Tepic, Nayarit, México</p>
-    <p>Hecho con amor y mucho café ❤️</p>
-  </footer>
-
-  <script src="js/script.js"></script>
-  <script src="js/interface.js"></script>
-  <script>
-    // Al cargar la página, renderizar el carrito desde localStorage
-    document.addEventListener('DOMContentLoaded', () => {
-      try { window.carrito = JSON.parse(localStorage.getItem('carrito') || '[]'); } catch (e) { window.carrito = []; }
-      // Aseguramos que renderCarrito use el carrito global
-      if (typeof renderCarrito === 'function') renderCarrito();
-    });
-  </script>
-</body>
+      <section class="cart-content container">
+        <div class="cart-page-header">
+          <p class="cart-page-label">TU SELECCIÓN</p>
+          <h1>Carrito</h1>
+        </div>
+        <div id="cartItems" class="cart-items-full">
+          <!-- renderCarrito() rellenará aquí -->
+        </div>
+        <aside id="cartFooter" class="cart-footer-full">
+          <!-- Totales / botones -->
+        </aside>
+      </section>
+    </main>
+    <!-- FOOTER - Pie de página -->
+    <footer class="footer">
+      <p>☕ Café Origen — Tepic, Nayarit, México</p>
+      <p>Hecho con amor y mucho café ❤️</p>
+    </footer>
+    <!-- JavaScript -FUNCIONALIDAD -->
+    <script src="js/script.js"></script>
+    <script src="js/interface.js"></script>
+    <script>
+      // Al cargar la página, renderizar el carrito desde localStorage
+      document.addEventListener("DOMContentLoaded", () => {
+        try {
+          window.carrito = JSON.parse(localStorage.getItem("carrito") || "[]");
+        } catch (e) {
+          window.carrito = [];
+        }
+        // Aseguramos que renderCarrito use el carrito global
+        if (typeof renderCarrito === "function") renderCarrito();
+      });
+    </script>
+  </body>
 </html>

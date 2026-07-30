@@ -20,19 +20,42 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Contacto | Café Aroma</title>
-    <link rel="stylesheet" href="css/contacto.css">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/contacto.css" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"/>
   </head>
   <body data-page="contacto" class="page-static">
-    <!-- Encabezado -->
+    <!-- ✅ VERIFICAR SESIÓN -->
+    <script>
+      (function () {
+        try {
+          const ses = localStorage.getItem("cafeSesion");
+          if (!ses) {
+            window.location.replace("login.html");
+          }
+        } catch (e) {
+          console.error("Error al verificar sesión:", e);
+        }
+      })();
+    </script>
+
+    <!-- ENCABEZADO -->
     <header>
-      <!-- Navegación -->
+      <!-- NAVBAR-->
       <nav class="navbar">
         <div class="nav-logo"><a href="index.html">☕ Café Aroma</a></div>
-        <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
         <ul class="nav-links">
           <li><a href="index.html">Inicio</a></li>
           <li><a href="menu.html">Menú</a></li>
@@ -43,71 +66,87 @@
           <li><a href="pedidos.html">Pedidos</a></li>
           <li><a href="login.html">Iniciar Sesión</a></li>
         </ul>
-        <div class="cart-btn" id="cartBtn">🛒 <span id="cartCount">0</span></div>
+        <div class="cart-btn" id="cartBtn">
+          🛒 <span id="cartCount">0</span>
+        </div>
       </nav>
     </header>
-    <!-- Main-Contenido -->
-  <!-- Main-Contenido -->
-<main class="contact-page">
-  <section>
-    <h1>Horario</h1>
-    <div class="schedule">
-      <div class="schedule-item">
-        <strong>Lunes – Viernes</strong>
-        <span>7:00 – 20:00</span>
-      </div>
-      <div class="schedule-item">
-        <strong>Sábado</strong>
-        <span>8:00 – 21:00</span>
-      </div>
-      <div class="schedule-item">
-        <strong>Domingo</strong>
-        <span>9:00 – 18:00</span>
-      </div>
-    </div>
-    <div class="location">
-      <span class="location-title">📍 Ubicación</span>
-      <div class="location-address">
-        Av. Principal 123, Local A<br />
-        Ciudad Central, CP 10001
-      </div>
-      <div class="contact-info">
-        <span>📞 <span class="phone">+1 (000) 123-4567</span></span>
-        <span>✉ <a href="mailto:hola@cafearoma.com" class="email">hola@cafearoma.com</a></span>
-      </div>
-    </div>
-  </section>
-  <section>
-    <h1>Contáctanos</h1>
-    <form class="contact-form" id="contactForm">
-      <div class="two-inputs">
-        <label>
-          Nombre <span class="required">*</span>
-          <!-- ✅ ELIMINA EL required DE AQUÍ -->
-          <input placeholder="Tu nombre" id="contactName">
-        </label>
-        <label>Email <span class="required">*</span>
-          <!-- ✅ ELIMINA EL required DE AQUÍ -->
-          <input type="email" placeholder="tu@email.com" id="contactEmail">
-        </label>
-      </div>
-      <label>
-        Mensaje <span class="required">*</span>
-        <!-- ✅ ELIMINA EL required DE AQUÍ -->
-        <textarea placeholder="¿En qué podemos ayudarte?" id="contactMsg"></textarea>
-      </label>
-      <button type="submit" class="btn-primary">Enviar mensaje</button>
-      <div class="form-feedback hidden" id="formFeedback">¡Mensaje enviado con éxito!</div>
-    </form>
-  </section>
-</main>
-    <!-- Footer - Pie de página -->
+    <!-- MAIN - Contenido -->
+    <main class="contact-page">
+      <section>
+        <h1>Horario</h1>
+        <div class="schedule">
+          <div class="schedule-item">
+            <strong>Lunes – Viernes</strong>
+            <span>7:00 – 20:00</span>
+          </div>
+          <div class="schedule-item">
+            <strong>Sábado</strong>
+            <span>8:00 – 21:00</span>
+          </div>
+          <div class="schedule-item">
+            <strong>Domingo</strong>
+            <span>9:00 – 18:00</span>
+          </div>
+        </div>
+        <div class="location">
+          <span class="location-title">📍 Ubicación</span>
+          <div class="location-address">
+            Av. Principal 123, Local A<br />
+            Ciudad Central, CP 10001
+          </div>
+          <div class="contact-info">
+            <span>📞 <span class="phone">+1 (000) 123-4567</span></span>
+            <span
+              >✉
+              <a href="mailto:hola@cafearoma.com" class="email"
+                >hola@cafearoma.com</a
+              ></span
+            >
+          </div>
+        </div>
+      </section>
+      <section>
+        <h1>Contáctanos</h1>
+        <form class="contact-form" id="contactForm">
+          <div class="two-inputs">
+            <label>
+              Nombre <span class="required">*</span>
+              <!-- ✅ ELIMINA EL required DE AQUÍ -->
+              <input placeholder="Tu nombre" id="contactName" />
+            </label>
+            <label
+              >Email <span class="required">*</span>
+              <!-- ✅ ELIMINA EL required DE AQUÍ -->
+              <input
+                type="email"
+                placeholder="tu@email.com"
+                id="contactEmail"
+              />
+            </label>
+          </div>
+          <label>
+            Mensaje <span class="required">*</span>
+            <!-- ✅ ELIMINA EL required DE AQUÍ -->
+            <textarea
+              placeholder="¿En qué podemos ayudarte?"
+              id="contactMsg"
+            ></textarea>
+          </label>
+          <button type="submit" class="btn-primary">Enviar mensaje</button>
+          <div class="form-feedback hidden" id="formFeedback">
+            ¡Mensaje enviado con éxito!
+          </div>
+        </form>
+      </section>
+    </main>
+    <!-- FOOTER - Pie de página -->
     <footer class="footer">
       <p>☕ Café Origen — Tepic, Nayarit, México</p>
       <p>Hecho con amor y mucho café ❤️</p>
     </footer>
-    <!-- JavaScript - Funcionalidad -->
-   <script src="js/api.js"></script>
+    <!-- JavaScript -FUNCIONALIDAD -->
+    <script src="js/api.js"></script>
     <script src="js/interface.js"></script>
     <script src="js/script.js"></script>
     <script src="js/contacto.js"></script>

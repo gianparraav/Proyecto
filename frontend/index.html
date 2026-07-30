@@ -1,161 +1,148 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Café Aroma — Especialidades</title>
-  <link rel="stylesheet" href="css/index.css" />
-</head>
-
-<body>
-
-  <!-- NAVBAR -->
-  <header>
-    <nav class="navbar">
-      <div class="nav-logo">
-        <a href="index.html">☕ Café Aroma</a>
-      </div>
-
-      <ul class="nav-links">
-        <li><a href="index.html" class="active">Inicio</a></li>
-        <li><a href="menu.html">Menú</a></li>
-        <li><a href="nosotros.html">Nosotros</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-        <li><a href="pedidos.html">Pedidos</a></li>
-        <li><a href="admin.html">Gestión</a></li>
-        <li><a href="login.html">Admin</a></li>
-      </ul>
-
-      <div class="cart-btn" id="cartBtn">
-        🛒 Carrito <span id="cartCount">0</span>
-      </div>
-    </nav>
-  </header>
-
-  <!-- HERO -->
-  <main>
-    <section class="hero">
-      <div class="hero-overlay"></div>
-
-      <div class="hero-content">
-        <p class="hero-sub">BIENVENIDO A</p>
-
-        <h1 class="hero-title">Café Aroma</h1>
-
-        <p class="hero-desc">
-          Experiencias de café artesanal con ingredientes
-          de primera calidad. Cada sorbo, una historia.
-        </p>
-
-        <a href="menu.html" class="btn-primary">
-          Ver Menú Completo
-        </a>
-      </div>
-    </section>
-
-    <!-- ESTADÍSTICAS -->
-<section class="stats">
-  <div class="stat-item">
-    <div class="stat-icon"></div>
-    <h3>8</h3>
-    <p>Productos en menú</p>
-  </div>
-
-  <div class="stat-item">
-    <div class="stat-icon"></div>
-    <h3>14</h3>
-    <p>Mesas disponibles</p>
-  </div>
-
-  <div class="stat-item">
-    <div class="stat-icon"></div>
-    <h3>6</h3>
-    <p>Años de experiencia</p>
-  </div>
-
-  <div class="stat-item">
-    <div class="stat-icon"></div>
-    <h3>2,400+</h3>
-    <p>Clientes satisfechos</p>
-  </div>
-</section>
-
-<!-- PRODUCTOS DESTACADOS -->
-<section class="featured">
-  <div class="featured-header">
-    <div>
-      <p class="eyebrow">LO MÁS PEDIDO</p>
-      <h2>Productos Destacados</h2>
-    </div>
-
-    <a href="menu.html" class="see-all">Ver todo →</a>
-  </div>
-
-  <div class="featured-grid">
-
-    <article class="card">
-      <img src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=800&q=80" alt="Espresso">
-      <div class="card-body">
-        <p class="card-tag">LO MÁS PEDIDO</p>
-        <h3>Espresso Clásico</h3>
-        <p class="card-desc">
-          Un espresso concentrado y aromático, extraído lentamente para resaltar
-          los sabores más profundos del grano.
-        </p>
-
-        <div class="card-footer">
-          <span class="price">$35 MXN</span>
-          <button class="btn-add" onclick="agregarAlCarrito('1', event)">Agregar</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Café Aroma — Especialidades</title>
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <script>
+      (function () {
+        try {
+          const ses = localStorage.getItem("cafeSesion");
+          if (!ses) {
+            window.location.replace("login.html");
+          }
+        } catch (e) {
+          console.error("Error al verificar sesión:", e);
+        }
+      })();
+    </script>
+    <!-- ENCABEZADO -->
+    <header>
+      <!-- NAVBAR-->
+      <nav class="navbar">
+        <div class="nav-logo">
+          <a href="index.html">☕ Café Aroma</a>
         </div>
-      </div>
-    </article>
-
-    <article class="card">
-      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80" alt="Capuchino">
-      <div class="card-body">
-        <p class="card-tag">LO MÁS PEDIDO</p>
-        <h3>Capuchino Artesanal</h3>
-        <p class="card-desc">
-          Espresso doble con leche vaporizada y una capa de espuma suave y cremosa.
-          El favorito de muchos.
-        </p>
-
-        <div class="card-footer">
-          <span class="price">$55 MXN</span>
-          <button class="btn-add" onclick="agregarAlCarrito('2', event)">Agregar</button>
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Inicio</a></li>
+          <li><a href="menu.html">Menú</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="pedidos.html">Pedidos</a></li>
+          <li><a href="admin.html">Gestión</a></li>
+          <li><a href="login.html">Admin</a></li>
+        </ul>
+        <div class="cart-btn" id="cartBtn">
+          🛒 Carrito <span id="cartCount">0</span>
         </div>
-      </div>
-    </article>
+      </nav>
+    </header>
 
-    <article class="card">
-      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80" alt="Café filtrado">
-      <div class="card-body">
-        <p class="card-tag">LO MÁS PEDIDO</p>
-        <h3>Café Negro Filtrado</h3>
-        <p class="card-desc">
-          Café de origen único, preparado por goteo lento para extraer todos los
-          matices florales y frutales del grano.
-        </p>
+    <!-- MAIN - Contenido -->
+    <main>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-overlay"></div>
 
-        <div class="card-footer">
-          <span class="price">$40 MXN</span>
-          <button class="btn-add" onclick="agregarAlCarrito('3', event)">Agregar</button>
+        <div class="hero-content">
+          <p class="hero-sub">BIENVENIDO A</p>
+
+          <h1 class="hero-title">Café Aroma</h1>
+
+          <p class="hero-desc">
+            Experiencias de café artesanal con ingredientes de primera calidad.
+            Cada sorbo, una historia.
+          </p>
+
+          <a href="menu.html" class="btn-primary"> Ver Menú Completo </a>
         </div>
-      </div>
-    </article>
+      </section>
+      <!-- PRODUCTOS DESTACADOS -->
+      <section class="featured">
+        <div class="featured-header">
+          <div>
+            <p class="eyebrow">LO MÁS PEDIDO</p>
+            <h2>Productos Destacados</h2>
+          </div>
 
-  </div>
-</section>
+          <a href="menu.html" class="see-all">Ver todo →</a>
+        </div>
 
-  </main>
+        <div class="featured-grid" id="featuredGrid">
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=800&q=80"
+              alt="Espresso"
+            />
+            <div class="card-body">
+              <p class="card-tag">LO MÁS PEDIDO</p>
+              <h3>Espresso Clásico</h3>
+              <p class="card-desc">
+                Un espresso concentrado y aromático, extraído lentamente para
+                resaltar los sabores más profundos del grano.
+              </p>
 
-<footer class="footer">
-  <p>☕ Café Aroma — Tepic, Nayarit, México</p>
-  <p>Hecho con amor y mucho café ❤️</p>
-</footer>
+              <div class="card-footer">
+                <span class="price">$35 MXN</span>
+                <button class="btn-add">Agregar</button>
+              </div>
+            </div>
+          </article>
 
-<script src = "js/script.js"></script>
-<script src = "js/interface.js"></script>
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80"
+              alt="Capuchino"
+            />
+            <div class="card-body">
+              <p class="card-tag">LO MÁS PEDIDO</p>
+              <h3>Capuchino Artesanal</h3>
+              <p class="card-desc">
+                Espresso doble con leche vaporizada y una capa de espuma suave y
+                cremosa. El favorito de muchos.
+              </p>
 
-</body>
+              <div class="card-footer">
+                <span class="price">$55 MXN</span>
+                <button class="btn-add">Agregar</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <img
+              src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+              alt="Café filtrado"
+            />
+            <div class="card-body">
+              <p class="card-tag">LO MÁS PEDIDO</p>
+              <h3>Café Negro Filtrado</h3>
+              <p class="card-desc">
+                Café de origen único, preparado por goteo lento para extraer
+                todos los matices florales y frutales del grano.
+              </p>
+
+              <div class="card-footer">
+                <span class="price">$40 MXN</span>
+                <button class="btn-add" onclick="agregarAlCarrito('3', event)">
+                  Agregar
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+    <!-- FOOTER - Pie de página -->
+    <footer class="footer">
+      <p>☕ Café Aroma — Tepic, Nayarit, México</p>
+      <p>Hecho con amor y mucho café </p>
+    </footer>
+    <!-- JavaScript -FUNCIONALIDAD -->
+    <script src="js/script.js"></script>
+    <script src="js/interface.js"></script>
+  </body>
 </html>

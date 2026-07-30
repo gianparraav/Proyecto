@@ -18,66 +18,96 @@
      - pedidos.js → Lógica de pedidos
      - interface.js → Navbar dinámico
      ============================================ -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedidos — Café Origen</title>
-  <link rel="stylesheet" href="css/pedidos.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-</head>
-<body data-page="pedidos" class="page-pedidos">
-  <!-- Encabezado -->
-  <header>
-    <!-- Navegación -->
-    <nav class="navbar">
-      <div class="nav-logo"><a href="index.html">☕ Café Aroma</a></div>
-      <button type="button" class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
-      <ul class="nav-links">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="menu.html">Menú</a></li>
-        <li><a href="nosotros.html">Nosotros</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-        <li><a href="resenas.html">Reseñas</a></li>
-        <li><a href="admin.html">Admin</a></li>
-        <li><a href="pedidos.html" aria-current="page">Pedidos</a></li>
-        <li><a href="login.html">Iniciar Sesión</a></li>
-      </ul>
-      <div class="cart-btn" id="cartBtn">🛒 <span id="cartCount">0</span></div>
-    </nav>
-  </header>
-<!-- Main-Contenido -->
-  <main class="admin-main">
-    <section class="admin-header">
-      <h1>Panel de <em>pedidos</em></h1>
-      <p>Consulta pedidos del día, actualiza su estado (PUT) o cancela (DELETE).</p>
-    </section>
-    <section class="admin-card admin-card-wide pedidos-panel">
-      <div class="pedidos-summary" id="pedidosSummary">
-        <!-- tarjetas resumen: pendientes, preparando, listos, entregados -->
-      </div>
-      <div class="pedidos-controls">
-        <div class="pedidos-filters" id="pedidosFilters">
-          <!-- botones: Todos, Pendientes, Preparando, Listos, Entregados, Cancelados -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pedidos — Café Origen</title>
+    <link rel="stylesheet" href="css/pedidos.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"/>
+  </head>
+  <body data-page="pedidos" class="page-pedidos">
+    <!-- ✅ VERIFICAR SESIÓN -->
+    <script>
+      (function () {
+        try {
+          const ses = localStorage.getItem("cafeSesion");
+          if (!ses) {
+            window.location.replace("login.html");
+          }
+        } catch (e) {
+          console.error("Error al verificar sesión:", e);
+        }
+      })();
+    </script>
+    <!-- ENCABEZADO -->
+    <header>
+      <!-- NAVBAR-->
+      <nav class="navbar">
+        <div class="nav-logo"><a href="index.html">☕ Café Aroma</a></div>
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+        <ul class="nav-links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="menu.html">Menú</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="resenas.html">Reseñas</a></li>
+          <li><a href="admin.html">Admin</a></li>
+          <li><a href="pedidos.html" aria-current="page">Pedidos</a></li>
+          <li><a href="login.html">Iniciar Sesión</a></li>
+        </ul>
+        <div class="cart-btn" id="cartBtn">
+          🛒 <span id="cartCount">0</span>
         </div>
-        <div>
-          <button type="button" class="btn-secondary" id="btnRecargarPedidos">↻ Actualizar</button>
+      </nav>
+    </header>
+    <!-- MAIN - Contenido -->
+    <main class="admin-main">
+      <section class="admin-header">
+        <h1>Panel de <em>pedidos</em></h1>
+        <p>
+          Consulta pedidos del día, actualiza su estado (PUT) o cancela
+          (DELETE).
+        </p>
+      </section>
+      <section class="admin-card admin-card-wide pedidos-panel">
+        <div class="pedidos-summary" id="pedidosSummary">
+          <!-- tarjetas resumen: pendientes, preparando, listos, entregados -->
         </div>
-      </div>
-      <div id="pedidosLista" class="pedidos-lista"></div>
-    </section>
-  </main>
-   <!-- Footer - Pie de página -->
-  <footer class="footer">
-    <p>☕ Café Origen — Tepic, Nayarit, México</p>
-    <p>Hecho con amor y mucho café ❤️</p>
-  </footer>
-  <!-- JavaScript - Funcionalidad -->
-  <script src="js/api.js"></script>
-  <script src="js/script.js"></script>
-  <script src="js/nav.js"></script>
-  <script src="js/pedidos.js"></script>
-  <script src="js/interface.js"></script>
-</body>
+        <div class="pedidos-controls">
+          <div class="pedidos-filters" id="pedidosFilters">
+            <!-- botones: Todos, Pendientes, Preparando, Listos, Entregados, Cancelados -->
+          </div>
+          <div>
+            <button type="button" class="btn-secondary" id="btnRecargarPedidos">
+              ↻ Actualizar
+            </button>
+          </div>
+        </div>
+        <div id="pedidosLista" class="pedidos-lista"></div>
+      </section>
+    </main>
+    <!-- FOOTER - Pie de página -->
+    <footer class="footer">
+      <p>☕ Café Origen — Tepic, Nayarit, México</p>
+      <p>Hecho con amor y mucho café ❤️</p>
+    </footer>
+    <!-- JavaScript -FUNCIONALIDAD -->
+    <script src="js/api.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/pedidos.js"></script>
+    <script src="js/interface.js"></script>
+  </body>
 </html>
