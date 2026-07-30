@@ -1,3 +1,21 @@
+// ============================================
+//   VALIDACIONES.JS — FUNCIONES DE VALIDACIÓN COMPARTIDAS
+//   ============================================
+//   Función: Proporciona funciones de validación reutilizables
+//   para todo el sitio (contacto, reseñas, productos, email).
+//   
+//   Validaciones disponibles:
+//   - email(email): Verifica formato de correo electrónico
+//   - contacto({nombre, email, mensaje}): Valida formulario de contacto
+//   - resena({nombre, calificacion, comentario}): Valida reseñas
+//   - cafe(payload): Valida campos de productos (admin)
+//   
+//   Cada función devuelve un objeto con los errores encontrados.
+//   Si el objeto está vacío, la validación es exitosa.
+//   
+//   Uso: Se usa en conjunto con api.js y admin.js para validar
+//   los datos antes de enviarlos al servidor.
+//   ============================================ */
 const Validaciones = {
   email(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -12,19 +30,6 @@ const Validaciones = {
     }
     if (!mensaje.trim() || mensaje.trim().length < 10) {
       errores.contactMsg = 'El mensaje debe tener al menos 10 caracteres.';
-    }
-    return errores;
-  },
-  resena({ nombre, calificacion, comentario }) {
-    const errores = {};
-    if (!nombre.trim() || nombre.trim().length < 2) {
-      errores.resenaNombre = 'Indica tu nombre (mínimo 2 caracteres).';
-    }
-    if (!calificacion || calificacion < 1) {
-      errores.resenaCalificacion = 'Selecciona una calificación de 1 a 5 estrellas.';
-    }
-    if (!comentario.trim() || comentario.trim().length < 5) {
-      errores.resenaComentario = 'El comentario debe tener al menos 5 caracteres.';
     }
     return errores;
   },

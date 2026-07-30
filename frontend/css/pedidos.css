@@ -1,0 +1,869 @@
+/* ============================================
+     PEDIDOS.CSS — ESTILOS DEL PANEL DE PEDIDOS
+     ============================================
+     Función: Define los estilos visuales para la página
+     de gestión de pedidos (pedidos.html).
+     
+     Estilos principales:
+     - Navbar oscuro consistente con el sitio
+     - Tarjetas de resumen (Pendientes, Preparando, etc.)
+     - Filtros por estado
+     - Tarjetas de pedido con diseño limpio
+     - Badges de estado con colores semánticos
+     - Detalle expandible (artículos, acciones)
+     - Selector de estado y botones de acción
+     
+     Componentes:
+     .pedidos-summary → Resumen de pedidos
+     .pedido-card → Tarjeta individual
+     .pedido-badge → Estado del pedido
+     .pedido-detail → Detalle expandible
+     ============================================ */
+/* ============================================
+   RESET Y VARIABLES
+   ============================================ */
+:root {
+  --cream: #faf7f2;
+  --brown-dark: #32170d;
+  --brown-mid: #5b2d19;
+  --brown-light: #b37d47;
+  --gold: #d4b07a;
+  --text: #28150d;
+  --text-light: #9b704b;
+  --white: #ffffff;
+  --card-bg: #fff;
+  --shadow: 0 8px 32px rgba(44, 26, 14, 0.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   NAVBAR (para pedidos.html)
+   ============================================ */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 60px;
+  background: #30180f;
+  color: #f9f0e6;
+  box-shadow: 0 4px 16px rgba(35, 18, 10, 0.2);
+}
+
+.nav-logo a {
+  color: #fff8f0;
+  text-decoration: none;
+  font-family: "Playfair Display", serif;
+  font-size: 1.32rem;
+  font-weight: 700;
+}
+
+.nav-logo a:first-letter {
+  color: #d9b678;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #e6d8c9;
+  text-decoration: none;
+  padding: 9px 13px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all var(--transition);
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+  color: #30180f;
+  background: #d8b67c;
+}
+
+.cart-btn {
+  background: #442313;
+  border-radius: 8px;
+  padding: 9px 14px;
+  color: #fff8f0;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-family: "DM Sans", sans-serif;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cart-btn:hover {
+  background: #5a2f1a;
+}
+
+.nav-toggle {
+  display: none;
+  color: white;
+  background: none;
+  border: 0;
+  font-size: 1.45rem;
+  cursor: pointer;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  background: var(--brown-dark);
+  color: rgba(253, 246, 236, 0.85);
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 0.9rem;
+  line-height: 2;
+}
+
+/* ============================================
+   PÁGINA DE PEDIDOS
+   ============================================ */
+.page-pedidos {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-pedidos main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-pedidos .admin-main {
+  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 20px 40px;
+  width: 100%;
+}
+
+.page-pedidos .footer {
+  margin-top: auto;
+}
+
+/* ---- Encabezado ---- */
+.page-pedidos .admin-header {
+  margin-bottom: 24px;
+}
+
+.page-pedidos .admin-header h1 {
+  font: 700 2.2rem "Playfair Display", serif;
+  margin: 0 0 6px;
+  color: var(--brown-dark);
+}
+
+.page-pedidos .admin-header h1 em {
+  color: var(--brown-mid);
+  font-style: italic;
+}
+
+.page-pedidos .admin-header p {
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+/* ---- Panel de pedidos ---- */
+.page-pedidos .pedidos-panel {
+  padding: 24px;
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid #dfd0c0;
+  box-shadow: var(--shadow);
+}
+
+/* ---- Tarjetas de resumen (4 columnas) ---- */
+.page-pedidos .pedidos-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.page-pedidos .pedidos-summary .summary-card {
+  background: var(--card-bg);
+  border: 1px solid #dfd0c0;
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: box-shadow 0.2s ease;
+}
+
+.page-pedidos .pedidos-summary .summary-card:hover {
+  box-shadow: 0 4px 12px rgba(44, 26, 14, 0.06);
+}
+
+.page-pedidos .pedidos-summary .summary-card .info {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-pedidos .pedidos-summary .summary-card .info small {
+  color: var(--text-light);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.page-pedidos .pedidos-summary .summary-card .info .number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--brown-dark);
+  font-family: "Playfair Display", serif;
+  line-height: 1.2;
+}
+
+.page-pedidos .pedidos-summary .summary-card .icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  opacity: 0.5;
+}
+
+/* ---- Controles y filtros ---- */
+.page-pedidos .pedidos-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.page-pedidos .pedidos-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.page-pedidos .pedidos-filters .filter-btn {
+  background: var(--white);
+  border: 1px solid #dfd0c0;
+  padding: 6px 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 0.8rem;
+  font-family: "DM Sans", sans-serif;
+  transition: all var(--transition);
+}
+
+.page-pedidos .pedidos-filters .filter-btn small {
+  background: rgba(107, 63, 31, 0.06);
+  border-radius: 999px;
+  padding: 1px 7px;
+  margin-left: 5px;
+  color: var(--text-light);
+  font-weight: 700;
+  font-size: 0.65rem;
+}
+
+.page-pedidos .pedidos-filters .filter-btn:hover {
+  background: rgba(107, 63, 31, 0.04);
+  border-color: var(--brown-light);
+}
+
+.page-pedidos .pedidos-filters .filter-btn.active {
+  background: var(--brown-dark);
+  color: var(--cream);
+  border-color: var(--brown-dark);
+}
+
+.page-pedidos .pedidos-filters .filter-btn.active small {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--cream);
+}
+
+.page-pedidos .btn-secondary {
+  background: var(--card-bg);
+  border: 1px solid #dfd0c0;
+  border-radius: 50px;
+  padding: 6px 18px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--text);
+  cursor: pointer;
+  font-family: "DM Sans", sans-serif;
+  transition: all var(--transition);
+}
+
+.page-pedidos .btn-secondary:hover {
+  background: rgba(107, 63, 31, 0.04);
+  border-color: var(--brown-light);
+}
+
+/* ---- Lista de pedidos ---- */
+.page-pedidos .pedidos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.page-pedidos .pedidos-lista > p {
+  color: var(--text-light);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.95rem;
+}
+
+/* ---- Tarjeta de pedido individual ---- */
+.page-pedidos .pedido-card {
+  background: var(--white);
+  border: 1px solid #dfd0c0;
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.page-pedidos .pedido-card:hover {
+  box-shadow: 0 4px 12px rgba(44, 26, 14, 0.05);
+  border-color: #d0bfae;
+}
+
+/* ---- Encabezado de la tarjeta ---- */
+.page-pedidos .pedido-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.page-pedidos .pedido-head-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.page-pedidos .pedido-head-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.page-pedidos .pedido-meta {
+  color: var(--text-light);
+  font-size: 0.65rem;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ---- Badge de estado ---- */
+.page-pedidos .pedido-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: capitalize;
+  font-family: "DM Sans", sans-serif;
+}
+
+.page-pedidos .pedido-badge.pendiente {
+  background: #fff4eb;
+  color: #b76f3f;
+  border: 1px solid #efd7c2;
+}
+
+.page-pedidos .pedido-badge.preparando {
+  background: #fff8ec;
+  color: #b17a2f;
+  border: 1px solid #efdbc5;
+}
+
+.page-pedidos .pedido-badge.listo {
+  background: #eaf6ee;
+  color: #1b6b3a;
+  border: 1px solid #d6efd6;
+}
+
+.page-pedidos .pedido-badge.entregado {
+  background: #ecf3fa;
+  color: #1b5fa6;
+  border: 1px solid #d7e8fb;
+}
+
+.page-pedidos .pedido-badge.cancelado {
+  background: #fcf0ef;
+  color: #a4432c;
+  border: 1px solid #f2d6d6;
+}
+
+/* ---- Monto ---- */
+.page-pedidos .pedido-amount {
+  font-family: "Playfair Display", serif;
+  font-size: 1.1rem;
+  color: var(--brown-dark);
+  font-weight: 700;
+}
+
+/* ---- Título y subtítulo del pedido ---- */
+.page-pedidos .pedido-title {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--brown-dark);
+}
+
+.page-pedidos .pedido-sub {
+  color: var(--text-light);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+/* ---- Botón toggle ---- */
+.page-pedidos .pedido-toggle {
+  background: var(--card-bg);
+  border: 1px solid #dfd0c0;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.7rem;
+  color: var(--text-light);
+  transition: all var(--transition);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.page-pedidos .pedido-toggle:hover {
+  background: rgba(107, 63, 31, 0.05);
+  border-color: var(--brown-light);
+  color: var(--text);
+}
+
+/* ---- Detalle expandido ---- */
+.page-pedidos .pedido-detail {
+  display: none;
+  margin-top: 8px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--card-bg);
+  border: 1px solid #dfd0c0;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.page-pedidos .pedido-card.expanded .pedido-detail {
+  display: grid;
+}
+
+/* ---- Sección de artículos ---- */
+.page-pedidos .detalle-header {
+  color: var(--text-light);
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.page-pedidos .detalle-articulos {
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  border: 1px solid #dfd0c0;
+}
+
+.page-pedidos .detalle-articulos ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.page-pedidos .detalle-articulos li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(107, 63, 31, 0.05);
+}
+
+.page-pedidos .detalle-articulos li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.page-pedidos .art-count {
+  color: var(--text-light);
+  font-weight: 700;
+  font-size: 0.75rem;
+  min-width: 24px;
+}
+
+.page-pedidos .art-name {
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+.page-pedidos .art-price {
+  color: var(--brown-dark);
+  font-weight: 700;
+  font-family: "Playfair Display", serif;
+  font-size: 0.8rem;
+}
+
+/* ---- Nota del pedido ---- */
+.page-pedidos .pedido-note {
+  background: rgba(253, 246, 236, 0.5);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin-top: 10px;
+  color: var(--text);
+  border: 1px solid #dfd0c0;
+  font-size: 0.8rem;
+}
+
+.page-pedidos .pedido-note strong {
+  color: var(--brown-dark);
+}
+
+/* ---- Acciones ---- */
+.page-pedidos .detalle-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--white);
+  border: 1px solid #dfd0c0;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+}
+
+.page-pedidos .btn-primary {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-weight: 700;
+  border: 0;
+  cursor: pointer;
+  background: var(--brown-dark);
+  color: var(--cream);
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.8rem;
+  transition: all var(--transition);
+}
+
+.page-pedidos .btn-primary:hover {
+  background: var(--brown-mid);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(44, 26, 14, 0.15);
+}
+
+.page-pedidos .btn-secondary {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-weight: 700;
+  border: 1px solid rgba(164, 67, 44, 0.15);
+  cursor: pointer;
+  background: var(--white);
+  color: #a4432c;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.8rem;
+  transition: all var(--transition);
+}
+
+.page-pedidos .btn-secondary:hover {
+  background: #fdf1f1;
+  border-color: rgba(164, 67, 44, 0.25);
+}
+
+/* ---- Selector de estado ---- */
+.page-pedidos .estado-actual {
+  background: var(--card-bg);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  color: var(--text);
+  border: 1px solid #dfd0c0;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.page-pedidos .estado-actual select {
+  width: 100%;
+  margin-top: 4px;
+  border: 1px solid #dfd0c0;
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  font-size: 0.8rem;
+  font-family: "DM Sans", sans-serif;
+  background: var(--white);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.page-pedidos .estado-actual select:focus {
+  outline: none;
+  border-color: var(--brown-mid);
+}
+
+/* ---- Mensaje de error ---- */
+.page-pedidos .field-error {
+  color: #a4432c;
+  font-size: 0.8rem;
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: #fcf0ef;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(164, 67, 44, 0.15);
+}
+
+/* ---- Ocultos ---- */
+.hidden {
+  display: none !important;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .page-pedidos .pedidos-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 820px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #30180f;
+    padding: 12px 20px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .nav-links.nav-open {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+
+  .cart-btn {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .page-pedidos .admin-main {
+    padding: 80px 16px 30px;
+  }
+
+  .page-pedidos .pedidos-panel {
+    padding: 16px;
+  }
+
+  .page-pedidos .pedido-detail {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .page-pedidos .pedido-card {
+    padding: 12px 14px;
+  }
+
+  .page-pedidos .pedido-amount {
+    font-size: 1rem;
+  }
+
+  .page-pedidos .pedidos-summary .summary-card .info .number {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-pedidos .pedidos-summary {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .page-pedidos .pedidos-summary .summary-card {
+    padding: 10px 12px;
+  }
+
+  .page-pedidos .pedidos-summary .summary-card .info .number {
+    font-size: 1.2rem;
+  }
+
+  .page-pedidos .pedidos-summary .summary-card .info small {
+    font-size: 0.55rem;
+  }
+
+  .page-pedidos .pedidos-summary .summary-card .icon {
+    font-size: 1.2rem;
+  }
+
+  .page-pedidos .pedidos-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .page-pedidos .pedidos-filters {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .page-pedidos .pedidos-filters .filter-btn {
+    white-space: nowrap;
+    font-size: 0.7rem;
+    padding: 4px 10px;
+  }
+
+  .page-pedidos .pedido-card {
+    padding: 10px 12px;
+  }
+
+  .page-pedidos .pedido-card header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+
+  .page-pedidos .pedido-head-left {
+    flex-wrap: wrap;
+  }
+
+  .page-pedidos .pedido-head-right {
+    justify-content: space-between;
+  }
+
+  .page-pedidos .pedido-detail {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .page-pedidos .detalle-articulos {
+    padding: 8px 10px;
+  }
+
+  .page-pedidos .detalle-articulos li {
+    gap: 4px;
+    font-size: 0.75rem;
+  }
+
+  .page-pedidos .detalle-acciones {
+    padding: 8px 10px;
+  }
+
+  .page-pedidos .pedido-amount {
+    font-size: 0.9rem;
+  }
+
+  .page-pedidos .pedido-title {
+    font-size: 0.85rem;
+  }
+
+  .page-pedidos .pedido-sub {
+    font-size: 0.7rem;
+  }
+
+  .page-pedidos .admin-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .page-pedidos .admin-header p {
+    font-size: 0.85rem;
+  }
+
+  .page-pedidos .btn-secondary {
+    font-size: 0.75rem;
+    padding: 4px 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .page-pedidos .pedidos-summary {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .page-pedidos .pedidos-summary .summary-card {
+    padding: 8px 10px;
+  }
+
+  .page-pedidos .pedidos-summary .summary-card .info .number {
+    font-size: 1rem;
+  }
+
+  .page-pedidos .pedidos-summary .summary-card .info small {
+    font-size: 0.5rem;
+  }
+
+  .page-pedidos .pedidos-summary .summary-card .icon {
+    font-size: 1rem;
+  }
+
+  .page-pedidos .admin-main {
+    padding: 70px 10px 16px;
+  }
+
+  .page-pedidos .pedidos-panel {
+    padding: 8px;
+  }
+
+  .page-pedidos .pedido-card {
+    padding: 8px 10px;
+  }
+}

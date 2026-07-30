@@ -2,8 +2,17 @@
 //   CAFÉ ORIGEN — script.js
 //   Manejo del catálogo, carrito, modal y API
 // ============================================
-
-// ---- DATOS DE CAFÉS (simulando MongoDB, luego conectamos el backend real) ----
+// ============================================
+//   SCRIPT.JS — LÓGICA PRINCIPAL DEL SITIO
+//   ============================================
+//   Funciones principales:
+//   - cafesData: Datos locales de productos (fallback)
+//   - renderCafes(): Renderiza tarjetas de café en menú
+//   - Carrito: agregar, eliminar, actualizar cantidad
+//   - Modal: abrir/cerrar con detalles del producto
+//   - Contacto: manejo del formulario
+//   - Carga desde API: intenta cargar datos de MongoDB
+//   ============================================ */
 const cafesData = [
   {
     _id: "1",
@@ -118,8 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupModal();
   if (document.getElementById('contactForm')) setupContacto();
   setupNavbar();
-  if (document.getElementById('resenas')) setupResenas();
-
   // Intentar cargar desde el backend (si está activo)
   cargarDesdeAPI();
 });
@@ -622,251 +629,6 @@ async function cargarDesdeAPI() {
     // El backend no está activo, usamos datos locales (normal en desarrollo)
     console.log('ℹ️ Usando datos locales. Para usar MongoDB, inicia el servidor Node.js.');
   }
-}
-
-// ---- RESEÑAS CON CARRUSEL ----
-let todasLasResenas  = [];
-let carouselIndex    = 0;
-let carouselTimer    = null;
-let cafeActivoNombre = null;
-
-function setupResenas() {
-  cargarResenas();
-  setupEstrellas();
-  setupResenaModal();
-
-  document.getElementById('resenaForm').addEventListener('submit', enviarResena);
-  document.getElementById('carouselPrev').addEventListener('click', () => moverCarrusel(-1));
-  document.getElementById('carouselNext').addEventListener('click', () => moverCarrusel(1));
-}
-
-function setupEstrellas() {
-  document.querySelectorAll('.estrella-btn').forEach(btn => {
-    btn.addEventListener('mouseover', () => resaltarEstrellas(btn.dataset.val));
-    btn.addEventListener('mouseout',  () => resaltarEstrellas(document.getElementById('resenaCalificacion').value));
-    btn.addEventListener('click', () => {
-      document.getElementById('resenaCalificacion').value = btn.dataset.val;
-      resaltarEstrellas(btn.dataset.val);
-    });
-  });
-}
-
-function resaltarEstrellas(val) {
-  document.querySelectorAll('.estrella-btn').forEach(btn => {
-    btn.classList.toggle('activa', btn.dataset.val <= val);
-  });
-}
-
-function setupResenaModal() {
-  document.getElementById('resenaModalClose').addEventListener('click', () => {
-    document.getElementById('resenaModalOverlay').classList.add('hidden');
-  });
-  document.getElementById('resenaModalOverlay').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('resenaModalOverlay'))
-      document.getElementById('resenaModalOverlay').classList.add('hidden');
-  });
-}
-
-function abrirModalResena(nombreCafe) {
-  document.getElementById('resenaCafe').value = nombreCafe;
-  document.getElementById('resenaModalCafe').textContent = '☕ ' + nombreCafe;
-  document.getElementById('resenaForm').reset();
-  document.getElementById('resenaCalificacion').value = 0;
-  resaltarEstrellas(0);
-  document.getElementById('resenaFeedback').classList.add('hidden');
-  document.getElementById('resenaModalOverlay').classList.remove('hidden');
-}
-
-async function enviarResena(e) {
-  e.preventDefault();
-  const calificacion = parseInt(document.getElementById('resenaCalificacion').value);
-  if (calificacion === 0) { mostrarNotificacion('⭐ Selecciona una calificación'); return; }
-
-  const resena = {
-    nombre:       document.getElementById('resenaNombre').value,
-    cafe:         document.getElementById('resenaCafe').value,
-    calificacion,
-    comentario:   document.getElementById('resenaComentario').value
-  };
-
-  try {
-    const res = await fetch('http://localhost:3000/api/resenas', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(resena)
-    });
-    if (!res.ok) throw new Error();
-    document.getElementById('resenaFeedback').classList.remove('hidden');
-    document.getElementById('resenaForm').reset();
-    document.getElementById('resenaCalificacion').value = 0;
-    resaltarEstrellas(0);
-    setTimeout(() => {
-      document.getElementById('resenaFeedback').classList.add('hidden');
-      document.getElementById('resenaModalOverlay').classList.add('hidden');
-    }, 2000);
-    await cargarResenas();
-    mostrarPanelResenas(resena.cafe);
-  } catch {
-    mostrarNotificacion('❌ Error al publicar la reseña');
-  }
-}
-
-async function cargarResenas() {
-  try {
-    const res = await fetch('http://localhost:3000/api/resenas');
-    if (!res.ok) throw new Error();
-    todasLasResenas = await res.json();
-  } catch {
-    todasLasResenas = [];
-  }
-  construirCarrusel();
-}
-
-function construirCarrusel() {
-  const stage = document.getElementById('carouselStage');
-  const dots  = document.getElementById('carouselDots');
-  if (!stage || cafesData.length === 0) return;
-
-  stage.innerHTML = cafesData.map((cafe, i) => {
-    const total = todasLasResenas.filter(r => r.cafe === cafe.nombre).length;
-    return `
-      <div class="carousel-card ${i === carouselIndex ? 'activo' : ''}" data-index="${i}" data-nombre="${cafe.nombre}">
-        <div class="carousel-card-img-wrap">
-          <img src="${cafe.imagen}" alt="${cafe.nombre}" loading="lazy" />
-          <div class="carousel-card-overlay">
-            <span class="carousel-card-cat">${formatCategoria(cafe.categoria)}</span>
-            <h3>${cafe.nombre}</h3>
-            <p class="carousel-card-precio">$${cafe.precio} MXN</p>
-            <div class="carousel-card-btns">
-              <button class="btn-ver-resenas" onclick="seleccionarCafeCarrusel('${cafe.nombre}')">
-                ⭐ ${total} reseña${total !== 1 ? 's' : ''}
-              </button>
-              <button class="btn-escribir-resena" onclick="abrirModalResena('${cafe.nombre}')">
-                + Escribir
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  dots.innerHTML = cafesData.map((_, i) =>
-    `<span class="carousel-dot ${i === carouselIndex ? 'activo' : ''}" data-index="${i}"></span>`
-  ).join('');
-
-  dots.querySelectorAll('.carousel-dot').forEach(dot => {
-    dot.addEventListener('click', () => irASlide(parseInt(dot.dataset.index)));
-  });
-
-  // Hover: iluminar tarjeta, atenuar las demás, pausar autoplay
-  const cards = stage.querySelectorAll('.carousel-card');
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      clearInterval(carouselTimer);
-      cards.forEach(c => c.classList.add('atenuada'));
-      card.classList.remove('atenuada');
-      card.classList.add('iluminada');
-    });
-    card.addEventListener('mouseleave', () => {
-      cards.forEach(c => { c.classList.remove('atenuada'); c.classList.remove('iluminada'); });
-      iniciarAutoplay();
-    });
-  });
-
-  if (cafeActivoNombre) mostrarPanelResenas(cafeActivoNombre);
-}
-
-function irASlide(index) {
-  carouselIndex = (index + cafesData.length) % cafesData.length;
-  construirCarrusel();
-}
-
-function moverCarrusel(dir) {
-  clearInterval(carouselTimer);
-  irASlide(carouselIndex + dir);
-}
-
-function iniciarAutoplay() {
-  clearInterval(carouselTimer);
-  carouselTimer = setInterval(() => irASlide(carouselIndex + 1), 3500);
-}
-
-function seleccionarCafeCarrusel(nombre) {
-  cafeActivoNombre = nombre;
-  clearInterval(carouselTimer);
-  mostrarPanelResenas(nombre);
-  document.getElementById('resenasPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function mostrarPanelResenas(nombre) {
-  const panel   = document.getElementById('resenasPanel');
-  const resenas = todasLasResenas.filter(r => r.cafe === nombre);
-  const cafe    = cafesData.find(c => c.nombre === nombre);
-
-  panel.classList.remove('panel-visible');
-  void panel.offsetWidth; // fuerza reflow para re-animar
-
-  if (resenas.length === 0) {
-    panel.innerHTML = `
-      <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-        <button class="btn-cerrar-panel" onclick="cerrarPanel()" title="Cerrar">✕</button>
-      </div>
-      <div class="panel-vacio">
-        <img src="${cafe ? cafe.imagen : ''}" class="panel-vacio-img" alt="${nombre}" />
-        <div class="panel-vacio-texto">
-          <h3>${nombre}</h3>
-          <p>Aún no hay reseñas para este café. ¡Sé el primero!</p>
-          <button class="btn-primary" onclick="abrirModalResena('${nombre}')">✍️ Escribir reseña</button>
-        </div>
-      </div>
-    `;
-  } else {
-    panel.innerHTML = `
-      <div class="panel-header">
-        <h3>${nombre} <span>(${resenas.length} reseña${resenas.length !== 1 ? 's' : ''})</span></h3>
-        <div style="display:flex;gap:10px;align-items:center;">
-          <button class="btn-escribir-resena" onclick="abrirModalResena('${nombre}')">+ Agregar reseña</button>
-          <button class="btn-cerrar-panel" onclick="cerrarPanel()" title="Cerrar">✕</button>
-        </div>
-      </div>
-      <div class="panel-resenas-grid">
-        ${resenas.map(r => {
-          const color  = avatarColor(r.nombre);
-          const inicial = r.nombre.charAt(0).toUpperCase();
-          return `
-            <div class="resena-card">
-              <div class="resena-header">
-                <div class="resena-autor">
-                  <div class="resena-avatar" style="background:${color}">${inicial}</div>
-                  <span class="resena-nombre">${r.nombre}</span>
-                </div>
-                <span class="resena-estrellas">${'★'.repeat(r.calificacion)}${'☆'.repeat(5 - r.calificacion)}</span>
-              </div>
-              <p class="resena-comentario">${r.comentario}</p>
-            </div>
-          `;
-        }).join('')}
-      </div>
-    `;
-  }
-
-  panel.classList.add('panel-visible');
-}
-
-function cerrarPanel() {
-  const panel = document.getElementById('resenasPanel');
-  panel.classList.remove('panel-visible');
-  cafeActivoNombre = null;
-  iniciarAutoplay();
-  document.getElementById('resenas').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function avatarColor(nombre) {
-  const colores = ['#c8855a','#6b3f1f','#d4a847','#8b5e3c','#a0522d','#cd853f'];
-  let hash = 0;
-  for (let i = 0; i < nombre.length; i++) hash = nombre.charCodeAt(i) + ((hash << 5) - hash);
-  return colores[Math.abs(hash) % colores.length];
 }
 
 // Función para guardar pedido en MongoDB (se usará con el backend)

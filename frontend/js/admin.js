@@ -1,3 +1,18 @@
+// ============================================
+//   ADMIN.JS — LÓGICA DEL CRUD DE PRODUCTOS
+//   ============================================
+//   Funciones principales:
+//   - cargarCafesAdmin(): Obtiene productos de la API o fallback a datos locales
+//   - renderizarTabla(): Muestra los productos en la tabla
+//   - guardarCafe(): Crea o actualiza un producto (POST/PUT)
+//   - editarCafe(): Carga los datos del producto en el modal para editar
+//   - eliminarCafe(): Elimina un producto (DELETE)
+//   - filtrarCafes(): Busca productos en tiempo real
+//   - filterArrayByTerm(): Filtra productos por término de búsqueda
+//   - resetFormularioCafe(): Limpia el formulario y cierra el modal
+//   - abrirModalCafe(): Abre el modal para crear/editar
+//   - escapeHtml(): Escapa caracteres HTML para seguridad
+//   ============================================ */
 let editandoCafeId = null;
 let _cafesAdminAll = [];
 
@@ -21,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (event.target.id === 'adminModal') resetFormularioCafe();
   });
   cargarCafesAdmin();
-  cargarResenasAdmin();
 });
 
 async function cargarCafesAdmin() {
@@ -227,72 +241,6 @@ function resetFormularioCafe() {
 function abrirModalCafe() {
   document.getElementById('adminModal').classList.remove('hidden');
   document.getElementById('cafeNombre').focus();
-}
-
-async function cargarResenasAdmin() {
-  const cont = document.getElementById('listaResenasAdmin');
-  cont.innerHTML = '<p>Cargando reseñas…</p>';
-  try {
-    const resenas = await API.get('/api/resenas');
-    if (!resenas.length) {
-      cont.innerHTML = '<p>No hay reseñas registradas.</p>';
-      return;
-    }
-    cont.innerHTML = resenas.map(r => `
-      <div class="admin-resena-item" data-id="${r._id}">
-        <div>
-          <strong>${escapeHtml(r.cafe)}</strong> — ${escapeHtml(r.nombre)}
-          <span class="resena-estrellas">${'★'.repeat(r.calificacion)}</span>
-          <p>${escapeHtml(r.comentario)}</p>
-        </div>
-        <div class="table-actions">
-          <button type="button" class="btn-table" data-resena-edit="${r._id}">Editar</button>
-          <button type="button" class="btn-table btn-danger" data-resena-del="${r._id}">Eliminar</button>
-        </div>
-      </div>
-    `).join('');
-
-    cont.querySelectorAll('[data-resena-edit]').forEach(btn => {
-      btn.addEventListener('click', () => editarResena(btn.dataset.resenaEdit, resenas));
-    });
-    cont.querySelectorAll('[data-resena-del]').forEach(btn => {
-      btn.addEventListener('click', () => eliminarResena(btn.dataset.resenaDel));
-    });
-  } catch (err) {
-    cont.innerHTML = `<p>Error: ${escapeHtml(err.message)}</p>`;
-  }
-}
-
-async function editarResena(id, resenas) {
-  const r = resenas.find(x => x._id === id);
-  if (!r) return;
-  const comentario = prompt('Editar comentario:', r.comentario);
-  if (comentario === null) return;
-  const calStr = prompt('Calificación (1-5):', String(r.calificacion));
-  if (calStr === null) return;
-  const calificacion = parseInt(calStr, 10);
-  if (calificacion < 1 || calificacion > 5) {
-    mostrarNotificacion('La calificación debe ser entre 1 y 5', true);
-    return;
-  }
-  try {
-    await API.put(`/api/resenas/${id}`, { ...r, comentario: comentario.trim(), calificacion });
-    mostrarNotificacion('Reseña actualizada (PUT)');
-    cargarResenasAdmin();
-  } catch (err) {
-    mostrarNotificacion(err.message, true);
-  }
-}
-
-async function eliminarResena(id) {
-  if (!confirm('¿Eliminar esta reseña?')) return;
-  try {
-    await API.delete(`/api/resenas/${id}`);
-    mostrarNotificacion('Reseña eliminada (DELETE)');
-    cargarResenasAdmin();
-  } catch (err) {
-    mostrarNotificacion(err.message, true);
-  }
 }
 
 function escapeHtml(str) {

@@ -1,3 +1,18 @@
+// ============================================
+//   PEDIDOS.JS — LÓGICA DEL PANEL DE PEDIDOS
+//   ============================================
+//   Funciones principales:
+//   - cargarPedidos(): Obtiene pedidos de la API
+//   - renderResumen(): Muestra tarjetas de resumen por estado
+//   - renderFiltros(): Genera botones de filtro con contadores
+//   - renderListaPedidos(): Renderiza la lista de pedidos
+//   - renderPedidoCard(): Genera cada tarjeta de pedido
+//   - actualizarEstado(): Actualiza estado del pedido (PUT)
+//   - eliminarPedido(): Elimina un pedido (DELETE)
+//   - escapeHtml(): Escapa caracteres HTML para seguridad
+//   
+//   Estados: pendiente → preparando → listo → entregado
+//   ============================================ */
 const ESTADOS = ['pendiente', 'preparando', 'listo', 'entregado', 'cancelado'];
 let _pedidosAll = [];
 let _filtroActual = 'todos';
